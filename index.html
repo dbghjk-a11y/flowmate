@@ -114,41 +114,98 @@ li.completed span {
   </div>
 
  
+
 <script>
+  const STORAGE_KEY = "flowmate-tasks-v1";
+
+  // 저장된 할 일을 담는 배열
+  let tasks = [];
+
+  // 1. 브라우저에 데이터 저장
+  function saveTasks() {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(tasks)
+    );
+  }
+
+  // 2. 브라우저에서 데이터 불러오기
+  function loadTasks() {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      const data = saved ? JSON.parse(saved) : [];
+
+      tasks = Array.isArray(data) ? data : [];
+    } catch (error) {
+      console.error("데이터 불러오기 실패:", error);
+      tasks = [];
+    }
+  }
+
+  // 3. 회의 메모를 할 일로 변환
   function makeTasks() {
     const memo = document.getElementById("memo").value;
-    const taskList = document.getElementById("taskList");
-
-    taskList.innerHTML = "";
-
     const sentences = memo.split(/[.\n。]+/);
 
-    sentences.forEach(function(sentence) {
-      if (sentence.trim() === "") {
-        return;
-      }
+    const newTasks = sentences
+      .map(function(sentence) {
+        return sentence.trim();
+      })
+      .filter(function(sentence) {
+        return sentence !== "";
+      })
+      .map(function(sentence) {
+        return {
+          name: sentence,
+          owner: "",
+          due: "",
+          done: false
+        };
+      });
 
-      // 1. 할 일 항목 생성
+    if (newTasks.length === 0) {
+      return;
+    }
+
+    // 기존 업무를 유지하고 새 업무를 추가
+    tasks = tasks.concat(newTasks);
+
+    saveTasks();
+    renderTasks();
+  }
+
+  // 4. 화면에 할 일 목록 표시
+  function renderTasks() {
+    const taskList = document.getElementById("taskList");
+    taskList.innerHTML = "";
+
+    tasks.forEach(function(task) {
       const li = document.createElement("li");
 
-      // 2. 체크박스와 업무 이름
+      // 체크박스
       const checkboxLabel = document.createElement("label");
-
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
+      checkbox.checked = task.done;
 
       const span = document.createElement("span");
-      span.textContent = sentence.trim();
+      span.textContent = task.name;
+
+      if (task.done) {
+        li.classList.add("completed");
+      }
 
       checkbox.addEventListener("change", function() {
-        li.classList.toggle("completed", checkbox.checked);
+        task.done = checkbox.checked;
+        li.classList.toggle("completed", task.done);
+        saveTasks();
       });
 
       checkboxLabel.appendChild(checkbox);
       checkboxLabel.appendChild(span);
       li.appendChild(checkboxLabel);
 
-      // 3. 담당자와 마감일 영역
+      // 담당자와 마감일
       const details = document.createElement("div");
       details.className = "task-details";
 
@@ -162,6 +219,12 @@ li.completed span {
       const ownerInput = document.createElement("input");
       ownerInput.type = "text";
       ownerInput.placeholder = "담당자 이름";
+      ownerInput.value = task.owner;
+
+      ownerInput.addEventListener("input", function() {
+        task.owner = ownerInput.value;
+        saveTasks();
+      });
 
       ownerField.appendChild(ownerLabel);
       ownerField.appendChild(ownerInput);
@@ -175,11 +238,16 @@ li.completed span {
 
       const dueInput = document.createElement("input");
       dueInput.type = "date";
+      dueInput.value = task.due;
+
+      dueInput.addEventListener("change", function() {
+        task.due = dueInput.value;
+        saveTasks();
+      });
 
       dueField.appendChild(dueLabel);
       dueField.appendChild(dueInput);
 
-      // 4. 화면에 추가
       details.appendChild(ownerField);
       details.appendChild(dueField);
 
@@ -187,6 +255,10 @@ li.completed span {
       taskList.appendChild(li);
     });
   }
+
+  // 5. 웹페이지를 열면 저장된 데이터 복원
+  loadTasks();
+  renderTasks();
 </script>
 
 </body>
