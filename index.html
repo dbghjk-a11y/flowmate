@@ -40,6 +40,28 @@
     li {
       margin: 12px 0;
     }
+   
+li {
+  list-style: none;
+}
+
+li label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+li input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+
+li.completed span {
+  text-decoration: line-through;
+  color: gray;
+}
+ 
   </style>
 </head>
 
@@ -68,13 +90,35 @@
 
       const sentences = memo.split(/[.\n。]+/);
 
-      sentences.forEach(function(sentence) {
-        if (sentence.trim() !== "") {
-          const li = document.createElement("li");
-          li.textContent = sentence.trim();
-          taskList.appendChild(li);
-        }
-      });
+sentences.forEach(function(sentence) {
+  if (sentence.trim() !== "") {
+
+    const li = document.createElement("li");
+
+    const label = document.createElement("label");
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+
+    const span = document.createElement("span");
+    span.textContent = sentence.trim();
+
+    checkbox.addEventListener("change", function() {
+      if (checkbox.checked) {
+        li.classList.add("completed");
+      } else {
+        li.classList.remove("completed");
+      }
+    });
+
+    label.appendChild(checkbox);
+    label.appendChild(span);
+
+    li.appendChild(label);
+    taskList.appendChild(li);
+  }
+});
+
     }
   </script>
 </body>
