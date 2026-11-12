@@ -1,46 +1,86 @@
 # FlowMate
 
-A simple web tool that turns meeting notes into a task list.
+A simple productivity web app that turns meeting notes into manageable tasks.
 
-## Why I Built This
-I wanted to learn web development by creating a practical tool that helps people organize their work.
+## Project Overview
 
-## Features (v0.1)
-- Enter meeting notes
-- Split notes into individual sentences
-- Display sentences as a task list
-- Responsive layout for different screen sizes
+FlowMate is a personal learning project designed to help users organize meeting notes and track their tasks.
+
+The long-term goal is to build an AI-powered workflow assistant.
+
+**Current version:** v0.2 (Day 2)
+
+## Features
+
+- Convert meeting notes into a task list
+- Mark tasks as completed
+- Assign a task owner
+- Select a due date
+- Automatically save tasks using localStorage
+- Restore saved tasks after refreshing the page
+- Responsive layout for mobile screens
 
 ## Tech Stack
-- HTML
-- CSS
-- JavaScript
+
+- HTML5
+- CSS3
+- JavaScript (Vanilla JS)
+- Browser localStorage
 - GitHub Pages
 
 ## How to Use
-1. Open the website.
+
+1. Open the FlowMate website.
 2. Enter meeting notes.
-3. Click the Create Task List button.
-4. Review the generated list.
+3. Click the task creation button.
+4. Assign an owner and due date to each task.
+5. Check tasks when completed.
+6. Refresh the page to verify that tasks remain saved.
 
-## Limitations
-- The current version splits sentences using punctuation and line breaks.
-- It does not yet understand task owners or deadlines.
-- It does not use an AI model.
+## Current Limitations
 
-## Roadmap
-- [ ] Add task completion checkboxes
-- [ ] Extract task owners and deadlines
-- [ ] Connect an AI API securely
-- [ ] Save tasks locally
-- [ ] Improve mobile usability
+- Tasks are created by splitting text at periods and line breaks, not by AI.
+- Task owners and due dates must be entered manually.
+- Data is saved only in the current browser and site origin.
+- Tasks cannot yet be edited or deleted individually.
+- Duplicate tasks may be created.
+- There is no account system or cross-device synchronization.
+
+## Development Roadmap
+
+- [x] Build the first webpage
+- [x] Deploy with GitHub Pages
+- [x] Generate tasks from meeting notes
+- [x] Add completion checkboxes
+- [x] Add owner and due date fields
+- [x] Save tasks with localStorage
+- [ ] Add task deletion and editing
+- [ ] Prevent duplicate tasks
+- [ ] Improve task extraction
+- [ ] Integrate an AI API through a secure backend
+- [ ] Add user accounts and database storage
 
 ## Development Log
-### Day 1
-- Created a GitHub repository
-- Built the first webpage
-- Deployed with GitHub Pages
+
+### Day 1 — Initial Web App
+
+- Created the GitHub repository
+- Built the first webpage using HTML, CSS, and JavaScript
+- Deployed the project with GitHub Pages
 - Tested basic task generation
 
+### Day 2 — Task Management and Persistence
+
+- Learned JavaScript variables, arrays, objects, and functions
+- Added task completion checkboxes
+- Added owner and due date fields
+- Implemented localStorage persistence
+- Tested core features and browser refresh behavior
+
+## Security and Privacy
+
+This is a learning project. Do not enter sensitive or confidential meeting information. Browser localStorage is not encrypted application storage.
+
 ## License
+
 No open-source license has been selected yet.
