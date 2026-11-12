@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FlowMate - 회의 메모 정리</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 130px;
+      box-sizing: border-box;
+      padding: 12px;
+    }
+
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      margin-top: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    li {
+      margin: 12px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>FlowMate</h1>
+    <p>회의 메모를 할 일 목록으로 정리하세요.</p>
+
+    <textarea id="memo"
+      placeholder="회의 내용을 입력하세요."></textarea>
+
+    <button onclick="makeTasks()">
+      할 일 목록 만들기
+    </button>
+
+    <h2>할 일 목록</h2>
+    <ul id="taskList"></ul>
+  </div>
+
+  <script>
+    function makeTasks() {
+      const memo = document.getElementById("memo").value;
+      const taskList = document.getElementById("taskList");
+
+      taskList.innerHTML = "";
+
+      const sentences = memo.split(/[.\n。]+/);
+
+      sentences.forEach(function(sentence) {
+        if (sentence.trim() !== "") {
+          const li = document.createElement("li");
+          li.textContent = sentence.trim();
+          taskList.appendChild(li);
+        }
+      });
+    }
+  </script>
+</body>
+</html>
